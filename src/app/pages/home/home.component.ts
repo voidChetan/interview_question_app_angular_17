@@ -5,11 +5,12 @@ import { CommonModule } from '@angular/common';
 import { Observable, map } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { QuestionCardComponent } from '../question-card/question-card.component';
+import { QuestionCountComponent } from '../question-count/question-count.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, FormsModule,QuestionCardComponent],
+  imports: [CommonModule, FormsModule,QuestionCardComponent,QuestionCountComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
@@ -21,10 +22,11 @@ export class HomeComponent implements OnInit {
   selectedLanguage: number = 0;
   selectedTopic: number = 0;
   questionList: Question[] = [];
-
+  questionCountList: Question[] = [];
 
   ngOnInit(): void {
     this.loadLanguages();
+    this.getCount();
   }
 
   loadLanguages() {
@@ -33,7 +35,16 @@ export class HomeComponent implements OnInit {
     })
   }
 
-  
+  getCount() {
+    this.service.getQuestionCountByLanguage().subscribe((res:APIResponsModel)=>{
+     this.questionCountList =  res.data.filter((item:any)=>{
+        if(item.language != null) {
+          return item
+        }
+      })
+     
+    })
+  }
 
   onLanguageChange(event: any) {
    debugger;

@@ -1,14 +1,17 @@
 /* You can add global styles to this file, and also import other style files */
-body {
-	font-family: Poppins;
-	background-color:  #ff7361;
+body { 
+	background-color:  #f3f3f3;
 	background-size: 100vw;
-	background-color: white;
+	 
 	margin: 0px;
 	padding: none; 
 }
 pre{
-    background-color: #2f3239 !important;
+	display: block;
+    font-size: 87.5%;
+    padding: 5px;
+    color: #ffff !important;
+    background-color: #000 !important;
 }
 nav {
 	transition: backdrop-filter 0.3s ease;
@@ -509,8 +512,7 @@ div[class*="slider_shadow"]:before, div[class^="header_shadow"] {
 	content: "\f054";
 	font-family: "FontAwesome";
 	font-size: 10px;
-	margin-right: 8px;
-	speak: none;
+	margin-right: 8px; 
 	position: relative;
 	top: 1px;
 }
@@ -1076,8 +1078,7 @@ div[class*="slider_shadow"]:before, div[class^="header_shadow"] {
 .question-tags,.post-tags {
 	text-transform: capitalize;
 	font-size: 12px;
-	display: inline-block;
-	float: left;
+	display: inline-block; 
 }
 .share-inside {
 	float: left;
@@ -2031,7 +2032,7 @@ div[class*="slider_shadow"]:before, div[class^="header_shadow"] {
 	font-weight: bold;
 	background-color: #eaeaeb;
 	margin-bottom: 10px;
-	padding: 10px !important;
+	padding: 5px 5px !important;
 }
 .widget_stats li i,.user-profile-widget .ul_list li i {
 	width: 23px;
@@ -5101,8 +5102,7 @@ html[xmlns] .slides {
 .flex-control-nav li {
 	margin: 0 0 0 5px;
 	display: inline-block;
-	zoom: 1;
-	*display: inline;
+	zoom: 1; 
 }
 .flex-control-nav li:first-child {
 	margin: 0;

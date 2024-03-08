@@ -1,28 +1,29 @@
-<section class="container main-content pt-1">
-    <div class="row">
-        <div class="col-4">
-            <select class="form-select" (ngModelChange)="onLanguageChange($event)" [(ngModel)]="selectedLanguage">
-                <option value="0">Select Language</option>
-                <option *ngFor="let item of languageList" [value]="item.languageId"> {{item.language}}</option> 
-            </select>
-        </div>
-        <div class="col-4">
-            <select class="form-select" (change)="onTopicChange()" [(ngModel)]="selectedTopic">
-                <option value="0">Select Topic</option>
-                <ng-container *ngIf="topicList$ | async as topics" >
-                    @for (topic of topics; track $index) {
-                     <option [value]="topic.languageTopicId">{{topic.topicName}}</option> 
-                    }
-                </ng-container>
-            </select>
-        </div>
-    </div>
+<section class="container main-content pt-0">
+   
     <div class="row pt-2">
         <div class="col-md-9">
+            <div class="row pb-1">
+                <div class="col-4">
+                    <select class="form-select" (ngModelChange)="onLanguageChange($event)" [(ngModel)]="selectedLanguage">
+                        <option value="0">Select Language</option>
+                        <option *ngFor="let item of languageList" [value]="item.languageId"> {{item.language}}</option> 
+                    </select>
+                </div>
+                <div class="col-4">
+                    <select class="form-select" (change)="onTopicChange()" [(ngModel)]="selectedTopic">
+                        <option value="0">Select Topic</option>
+                        <ng-container *ngIf="topicList$ | async as topics" >
+                            @for (topic of topics; track $index) {
+                             <option [value]="topic.languageTopicId">{{topic.topicName}}</option> 
+                            }
+                        </ng-container>
+                    </select>
+                </div>
+            </div>
             <div class="row">
                 @if (questionList.length == 0) {
                     <div class="col-12 text-center pt-5">
-                        <p>No Question Found. Select Filter Properly</p>
+                        <p>Select Any Language to Get Questions</p>
                     </div>
                 } @else {
                     <div class="col-12" *ngFor="let question of questionList">
@@ -38,17 +39,9 @@
             }
         </div><!-- End main -->
         <aside class="col-md-3 sidebar">
-            <div class="widget widget_stats">
-                <h3 class="widget_title">Question Count</h3>
-                <div class="ul_list ul_list-icon-ok">
-                    <ul>
-                        <li>Reacts ( <span>50</span> )</li>
-                        <li>Javascript ( <span>70</span> )</li>
-                    </ul>
-                </div>
-            </div>
+           <app-question-count [languageCountList]="questionCountList"></app-question-count>
 
-            <div class="widget widget_highest_points">
+            <div class="widget widget_highest_points mt-2">
                 <h3 class="widget_title">Top Categories</h3>
                 <ul>
                     <li>

@@ -1,1 +1,9 @@
-<p>question-count works!</p>
+<div class="widget widget_stats">
+    <h3 class="widget_title">Question Count</h3>
+    <div class="ul_list ul_list-icon-ok"> 
+        <ul>
+            <li *ngFor="let item of languageCountList">{{item.language}} ( <span>{{item.questionCount}} </span> )</li>
+            
+        </ul>
+    </div>
+</div>
