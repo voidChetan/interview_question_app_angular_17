@@ -1,0 +1,111 @@
+<section class="container main-content pt-1">
+    <div class="row">
+        <div class="col-4">
+            <select class="form-select" (ngModelChange)="onLanguageChange($event)" [(ngModel)]="selectedLanguage">
+                <option value="0">Select Language</option>
+                <option *ngFor="let item of languageList" [value]="item.languageId"> {{item.language}}</option> 
+            </select>
+        </div>
+        <div class="col-4">
+            <select class="form-select" (change)="onTopicChange()" [(ngModel)]="selectedTopic">
+                <option value="0">Select Topic</option>
+                <ng-container *ngIf="topicList$ | async as topics" >
+                    @for (topic of topics; track $index) {
+                     <option [value]="topic.languageTopicId">{{topic.topicName}}</option> 
+                    }
+                </ng-container>
+            </select>
+        </div>
+    </div>
+    <div class="row pt-2">
+        <div class="col-md-9">
+            <div class="row">
+                @if (questionList.length == 0) {
+                    <div class="col-12 text-center pt-5">
+                        <p>No Question Found. Select Filter Properly</p>
+                    </div>
+                } @else {
+                    <div class="col-12" *ngFor="let question of questionList">
+                        <app-question-card [question]="question" ></app-question-card>
+                    </div>
+                }
+                
+            </div>
+             
+            @if (questionList.length !== 0) {
+                
+            <a href="#" class="load-questions"><i class="icon-refresh"></i>Load More Questions</a>
+            }
+        </div><!-- End main -->
+        <aside class="col-md-3 sidebar">
+            <div class="widget widget_stats">
+                <h3 class="widget_title">Question Count</h3>
+                <div class="ul_list ul_list-icon-ok">
+                    <ul>
+                        <li>Reacts ( <span>50</span> )</li>
+                        <li>Javascript ( <span>70</span> )</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="widget widget_highest_points">
+                <h3 class="widget_title">Top Categories</h3>
+                <ul>
+                    <li>
+                        <div class="author-img">
+                            <a href="#"><img width="60" height="60"
+                                    src="https://2code.info/demo/html/ask-me/images/demo/admin.jpeg" alt=""></a>
+                        </div>
+                        <h6><a href="#">admin</a></h6>
+                        <span class="comment">12 Points</span>
+                    </li>
+                    <li>
+                        <div class="author-img">
+                            <a href="#"><img width="60" height="60"
+                                    src="https://2code.info/demo/html/ask-me/images/demo/avatar.png" alt=""></a>
+                        </div>
+                        <h6><a href="#">vbegy</a></h6>
+                        <span class="comment">10 Points</span>
+                    </li>
+                    <li>
+                        <div class="author-img">
+                            <a href="#"><img width="60" height="60"
+                                    src="https://2code.info/demo/html/ask-me/images/demo/avatar.png" alt=""></a>
+                        </div>
+                        <h6><a href="#">ahmed</a></h6>
+                        <span class="comment">5 Points</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="widget widget_tag_cloud">
+                <h3 class="widget_title">Tags</h3>
+                <a href="#">projects</a>
+                <a href="#">Portfolio</a>
+                <a href="#">Wordpress</a>
+                <a href="#">Html</a>
+                <a href="#">Css</a>
+                <a href="#">jQuery</a>
+                <a href="#">2code</a>
+                <a href="#">vbegy</a>
+            </div>
+
+            <div class="widget">
+                <h3 class="widget_title">Recent Questions</h3>
+                <ul class="related-posts">
+                    <li class="related-item">
+                        <h3><a href="#">This is my first Question</a></h3>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        <div class="clear"></div><span>Feb 22, 2014</span>
+                    </li>
+                    <li class="related-item">
+                        <h3><a href="#">This Is My Second Poll Question</a></h3>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        <div class="clear"></div><span>Feb 22, 2014</span>
+                    </li>
+                </ul>
+            </div>
+
+        </aside><!-- End sidebar -->
+    </div><!-- End row -->
+</section>
