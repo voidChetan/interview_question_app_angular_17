@@ -22,6 +22,7 @@ export interface LanguageTopic {
 export interface Question {
     question: string
     answer: string
+    isRead: boolean
     topicName: string
     languageTopicId: number
     questionId: number

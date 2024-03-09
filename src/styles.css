@@ -1145,12 +1145,11 @@ div[class*="slider_shadow"]:before, div[class^="header_shadow"] {
 }
 .question-report {
 	float: right;
-	font-size: 12px;
-	background-color: #2f3239;
+	font-size: 12px; 
 	padding: 4px 10px;
 	position: absolute;
-	top: 20px;
-	right: 20px;
+	top: 10px;
+    right: 6px;
 	height: 23px;
 	line-height: 15px;
 }
@@ -2831,8 +2830,7 @@ input[type="radio"]:checked::before {
 }
 input[type="checkbox"] {
 	cursor: pointer;
-	margin: 0;
-	-webkit-appearance: none;
+	margin: 0; 
 	-webkit-margin-start: 0;
 	-webkit-margin-end: 3px;
 	display: inline-block;

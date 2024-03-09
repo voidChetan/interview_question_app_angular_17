@@ -1,7 +1,10 @@
-<article class="question question-type-normal">
+<article class="question question-type-normal" [ngClass]="question.isRead ?'read':''" (click)="markRead()">
     <h2>
         {{question.question}}
     </h2>
+    <a class="question-report"  >
+        <input type="checkbox" [(ngModel)]="question.isRead"/>
+    </a>
 
     <div class="question-author">
         <a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, HostListener, OnInit, inject } from '@angular/core';
 import { InterviewService } from '../../service/interview.service';
 import { APIResponsModel, ILanguage, LanguageTopic, Question } from '../../model/language.model';
 import { CommonModule } from '@angular/common';
@@ -28,6 +28,16 @@ export class HomeComponent implements OnInit {
     this.loadLanguages();
     this.getCount();
   }
+  isSticky: boolean = false;
+
+  @HostListener('window:scroll', ['$event'])
+  checkScroll() {
+    this.isSticky = window.pageYOffset >= 50;
+  }
+  @HostListener('contextmenu', ['$event'])
+onRightClick(event: any) {
+  event.preventDefault();
+}
 
   loadLanguages() {
     this.service.getAllLanguage().subscribe((res:APIResponsModel)=>{
