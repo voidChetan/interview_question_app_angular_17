@@ -36,7 +36,7 @@ export class HomeComponent implements OnInit {
   }
   @HostListener('contextmenu', ['$event'])
 onRightClick(event: any) {
-  event.preventDefault();
+  //event.preventDefault();
 }
 
   loadLanguages() {
