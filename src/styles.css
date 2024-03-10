@@ -10,6 +10,7 @@ pre{
 	display: block;
     font-size: 87.5%;
     padding: 5px;
+	margin-bottom: 0 !important;
     color: #ffff !important;
     background-color: #000 !important;
 }
@@ -5300,7 +5301,14 @@ html[xmlns] .slides {
 	color: #FFF;
 }
 
-
+p {
+    margin-top: 0;
+    margin-bottom: 0 !important;
+}
+dl, ol, ul {
+    margin-top: 0px;
+    margin-bottom: 0 !important;
+}
 .skeleton {
     -webkit-animation: skeleton-loading 1s linear infinite alternate;
     animation: skeleton-loading 1s linear infinite alternate;
