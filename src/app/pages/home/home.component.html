@@ -1,10 +1,9 @@
-<section class="container main-content pt-0">
-
+<section class="container main-content pt-0"> 
     <div class="row pt-2">
         <div class="col-md-9">
             <div class="row pb-1 " [ngClass]="isSticky ?'fixedElement':''">
                 <div class="col-4">
-                    <select class="form-select" (ngModelChange)="onLanguageChange($event)"
+                    <select class="form-select" (change)="onLanguageChange()"
                         [(ngModel)]="selectedLanguage">
                         <option value="0">Select Language</option>
                         <option *ngFor="let item of languageList" [value]="item.languageId"> {{item.language}}</option>
@@ -39,7 +38,17 @@
             <a href="#" class="load-questions"><i class="icon-refresh"></i>Load More Questions</a>
             }
         </div><!-- End main -->
-        <aside class="col-md-3 sidebar">
+        <aside class="col-md-3 sidebar"> 
+            <a class="card" id="card-link" *ngIf="showPlayer" target="_blank"> 
+                <div class="card__body"> 
+                    <div class="card__body body__img">
+                        <iframe style="border-radius: 10px;" width="100%" height="100%" [src]="youtubeUrl" title="Employee Registration app Angular 17 | Stepper Form | Angular 17 Project" frameborder="0" autoplay="true" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"  allowfullscreen></iframe>
+                    </div>
+                </div> 
+                <div class="card__footer" id="card-footer">
+                    <div class="skeleton-text skeleton-footer"> Check Youtube Video</div>
+                </div>
+            </a>
             <app-question-count [languageCountList]="questionCountList"></app-question-count>
 
             <div class="widget widget_highest_points mt-2">
@@ -48,7 +57,7 @@
                     <li>
                         <div class="author-img">
                             <a href="#"><img width="60" height="60"
-                                    src="https://2code.info/demo/html/ask-me/images/demo/admin.jpeg" alt=""></a>
+                                    src="assets/youtube_logo.jpg" alt=""></a>
                         </div>
                         <h6><a href="#">admin</a></h6>
                         <span class="comment">12 Points</span>
