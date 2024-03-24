@@ -64,6 +64,7 @@ export class HomeComponent implements OnInit {
   getyoutubeUrl() {
     debugger;
     let url = '';
+    this.showPlayer = false;
     if (this.selectedLanguage != 0 && this.selectedTopic !== 0) {
       const getTopciUrl = this.languageTopiocList.find(m => m.languageTopicId == Number(this.selectedTopic));
       if (getTopciUrl && getTopciUrl?.youtubeVideoUrl !== '' && getTopciUrl?.youtubeVideoUrl !== null)
@@ -91,7 +92,7 @@ export class HomeComponent implements OnInit {
         return item.data;
       }),
       tap((data: any) => {
-        this.languageTopiocList = data;
+        this.languageTopiocList =data.sort((a:LanguageTopic,b:LanguageTopic) => a.orderNo - b.orderNo);
       })
     )
   }
@@ -99,7 +100,7 @@ export class HomeComponent implements OnInit {
   onTopicChange() {
     this.getyoutubeUrl();
     this.service.getQuestionBtTopicId(this.selectedTopic).subscribe((res: APIResponsModel) => {
-      this.questionList = res.data;
+      this.questionList = res.data.sort((a:Question,b:Question) => a.orderNo - b.orderNo);;
     })
   }
   getQuesByLang(id: number) {
