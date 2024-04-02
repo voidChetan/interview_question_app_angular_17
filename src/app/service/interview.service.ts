@@ -30,6 +30,8 @@ export class InterviewService {
   getQuestionCountByLanguage(): Observable<APIResponsModel> {
     return this.http.get<APIResponsModel>(this.apiEndPoint +"GetQuestionCountByLanguage");
   }
-
+  getQuestionBysearchquery(str: string): Observable<APIResponsModel> {
+    return this.http.get<APIResponsModel>(this.apiEndPoint +"search?searchquery="+str);
+  }
   
 }

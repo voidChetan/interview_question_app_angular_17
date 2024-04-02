@@ -1,21 +1,27 @@
-import { Component, HostListener, OnInit, inject } from '@angular/core';
+import { Component, HostListener, OnInit, ViewChild, inject } from '@angular/core';
 import { InterviewService } from '../../service/interview.service';
 import { APIResponsModel, ILanguage, LanguageTopic, Question } from '../../model/language.model';
 import { CommonModule } from '@angular/common';
-import { Observable, map, tap } from 'rxjs';
+import { Observable, map, of, tap } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { QuestionCardComponent } from '../question-card/question-card.component';
 import { QuestionCountComponent } from '../question-count/question-count.component';
 import { DomSanitizer } from '@angular/platform-browser';
+import { NumbersOnlyDirective } from '../../shared/directives/numbers-only.directive';
+import { CheckForDevModeDirective } from '../../shared/directives/check-for-dev-mode.directive';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, FormsModule, QuestionCardComponent, QuestionCountComponent],
+  imports: [CommonModule, FormsModule, QuestionCardComponent, QuestionCountComponent, NumbersOnlyDirective, CheckForDevModeDirective],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+  styles: [
+    `p {color: blue;font-size: 18px}` , `.text-primary {color:blue}`
+  ]
 })
 export class HomeComponent implements OnInit {
+
+  // @ViewChild(QuestionCardComponent) questCard: QuestionCardComponent;
 
   languageList: ILanguage[] = [];
   service = inject(InterviewService);
@@ -28,11 +34,12 @@ export class HomeComponent implements OnInit {
   selectedTopicData!: LanguageTopic;
   languageTopiocList: LanguageTopic[] = [];
   showPlayer: boolean = false;
-
+  stateName$: Observable<string> = of('Default text');
+  searchText: string ='';
   constructor(private sanitizer: DomSanitizer) { }
   ngOnInit(): void {
     this.loadLanguages();
-    this.getCount();
+    this.getCount(); 
   }
   isSticky: boolean = false;
 
@@ -42,12 +49,20 @@ export class HomeComponent implements OnInit {
   }
   @HostListener('contextmenu', ['$event'])
   onRightClick(event: any) {
-    //event.preventDefault();
+    event.preventDefault();
   }
 
+  onQuestionClicked(data:any) {
+
+  }
   loadLanguages() {
     this.service.getAllLanguage().subscribe((res: APIResponsModel) => {
       this.languageList = res.data;
+    })
+  }
+  onSearch(search: string) {
+    this.service.getQuestionBysearchquery(search).subscribe((res: APIResponsModel) => {
+      this.questionList = res.data.sort((a:Question,b:Question) => a.orderNo - b.orderNo);
     })
   }
 

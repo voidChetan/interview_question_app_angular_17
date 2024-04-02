@@ -1,4 +1,4 @@
-<article class="question question-type-normal" [ngClass]="question.isRead ?'read':''" (click)="markRead()">
+<article class="question question-type-normal" [ngClass]="question.isRead ?'read':''"  >
     <h2>
         {{question.question}}
     </h2>
@@ -7,18 +7,17 @@
     </a>
 
     <div class="question-author">
-        <a href="#" original-title="ahmed" class="question-author-img tooltip-n"><span></span><img
+        <a href="#" class="question-author-img tooltip-n"><span></span><img
                 alt="" [src]="question.logo"></a>
     </div>
-    <div class="question-inner">
+    <div class="question-inner" (copy)="onCopy($event)" (paste)="onPaste($event)">
         <div class="clearfix"></div>
-        <p class="question-desc"  [innerHTML]="question.answer">  </p>
+        <p class="question-desc"   [innerHTML]="question.answer">  </p>
         <div class="question-details">
             <span class="question-answered question-answered-done"><i class="icon-ok"></i>{{question.language}} </span>
         </div> 
        
-        <span class="question-category"><a href="#"><i
-                    class="icon-folder-close"></i>{{question.topicName}}</a></span>
+        <span class="question-category"><a href="#"><i class="icon-folder-close"></i>{{question.topicName}}</a></span>
 
         <div class="clearfix"></div>
     </div>
