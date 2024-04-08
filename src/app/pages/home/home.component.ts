@@ -2,8 +2,8 @@ import { Component, HostListener, OnInit, ViewChild, inject } from '@angular/cor
 import { InterviewService } from '../../service/interview.service';
 import { APIResponsModel, ILanguage, LanguageTopic, Question } from '../../model/language.model';
 import { CommonModule } from '@angular/common';
-import { Observable, map, of, tap } from 'rxjs';
-import { FormsModule } from '@angular/forms';
+import { Observable, map, of, tap,debounceTime, switchMap,distinctUntilChanged } from 'rxjs';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { QuestionCardComponent } from '../question-card/question-card.component';
 import { QuestionCountComponent } from '../question-count/question-count.component';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -13,7 +13,7 @@ import { CheckForDevModeDirective } from '../../shared/directives/check-for-dev-
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, FormsModule, QuestionCardComponent, QuestionCountComponent, NumbersOnlyDirective, CheckForDevModeDirective],
+  imports: [CommonModule, FormsModule,ReactiveFormsModule, QuestionCardComponent, QuestionCountComponent, NumbersOnlyDirective, CheckForDevModeDirective],
   templateUrl: './home.component.html',
   styles: [
     `p {color: blue;font-size: 18px}` , `.text-primary {color:blue}`
@@ -36,7 +36,19 @@ export class HomeComponent implements OnInit {
   showPlayer: boolean = false;
   stateName$: Observable<string> = of('Default text');
   searchText: string ='';
-  constructor(private sanitizer: DomSanitizer) { }
+
+  questionSearch: FormControl = new FormControl('');
+
+  constructor(private sanitizer: DomSanitizer) { 
+
+    this.questionSearch.valueChanges.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap((query: string)=> this.service.getQuestionBysearchquery(query)) 
+    ).subscribe((result: APIResponsModel) =>{
+      this.questionList = result.data.sort((a:Question,b:Question) => a.orderNo - b.orderNo);
+    })
+  }
   ngOnInit(): void {
     this.loadLanguages();
     this.getCount(); 
