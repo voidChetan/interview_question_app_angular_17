@@ -9,6 +9,9 @@ import { APIResponsModel } from '../model/language.model';
 export class InterviewService {
 
   apiEndPoint: string = "https://freeapi.gerasim.in/api/Interview/";
+  apiEndPoint2: string = "https://freeapi.gerasim.in/api/miniproject/";
+  
+
 
   constructor(private http: HttpClient) { }
 
@@ -32,6 +35,9 @@ export class InterviewService {
   }
   getQuestionBysearchquery(str: string): Observable<APIResponsModel> {
     return this.http.get<APIResponsModel>(this.apiEndPoint +"search?searchquery="+str);
+  }
+  getAllProjects() {
+    return this.http.get(this.apiEndPoint2 +"GetAllProjects")
   }
   
 }

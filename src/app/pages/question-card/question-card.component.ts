@@ -22,19 +22,19 @@ export class QuestionCardComponent {
 
   @HostListener('document:copy', ['$event'])
   onDocumentCopy(event: ClipboardEvent) { 
-    event.preventDefault();
+   // event.preventDefault();
   }
 
   @HostListener('document:paste', ['$event'])
   onDocumentPaste(event: ClipboardEvent) { 
-    event.preventDefault();
+    //event.preventDefault();
   }
 
   onCopy(event: ClipboardEvent) { 
-    event.preventDefault();
+    //event.preventDefault();
   }
 
   onPaste(event: ClipboardEvent) { 
-    event.preventDefault();
+    //event.preventDefault();
   }
 }
