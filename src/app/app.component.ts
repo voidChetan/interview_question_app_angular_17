@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
+import { ThemeService } from './service/themeService';
 
 @Component({
   selector: 'app-root',
@@ -10,4 +11,13 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 })
 export class AppComponent {
   title = 'interview_question_app_angular_17';
+  constructor(private themeService: ThemeService) {}
+
+  toggleTheme() {
+    this.themeService.toggleTheme();
+  }
+
+  isDarkMode() {
+    return this.themeService.isDarkModeEnabled();
+  }
 }

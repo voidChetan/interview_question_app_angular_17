@@ -2,7 +2,7 @@
     <h3 class="widget_title">Question Count</h3>
     <div class="ul_list ul_list-icon-ok">
         <ul>
-            <li [ngClass]="loader?'skeleton':''" *ngFor="let item of languageCountList"> <ng-container
+            <li (click)="onLanguageSelect(item.languageId)" [ngClass]="loader?'skeleton':''" *ngFor="let item of languageCountList"> <ng-container
                     *ngIf="!loader">{{item.language}} ( <span>{{item.questionCount}} </span> )</ng-container> </li> 
         </ul>
     </div>

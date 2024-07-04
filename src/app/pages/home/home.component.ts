@@ -2,7 +2,7 @@ import { Component, HostListener, OnInit, ViewChild, inject } from '@angular/cor
 import { InterviewService } from '../../service/interview.service';
 import { APIResponsModel, ILanguage, LanguageTopic, Question } from '../../model/language.model';
 import { CommonModule } from '@angular/common';
-import { Observable, map, of, tap,debounceTime, switchMap,distinctUntilChanged } from 'rxjs';
+import { Observable, map, of, tap, debounceTime, switchMap, distinctUntilChanged } from 'rxjs';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { QuestionCardComponent } from '../question-card/question-card.component';
 import { QuestionCountComponent } from '../question-count/question-count.component';
@@ -13,10 +13,10 @@ import { CheckForDevModeDirective } from '../../shared/directives/check-for-dev-
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, FormsModule,ReactiveFormsModule, QuestionCardComponent, QuestionCountComponent, NumbersOnlyDirective, CheckForDevModeDirective],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, QuestionCardComponent, QuestionCountComponent, NumbersOnlyDirective, CheckForDevModeDirective],
   templateUrl: './home.component.html',
   styles: [
-    `p {color: blue;font-size: 18px}` , `.text-primary {color:blue}`
+    `p {color: blue;font-size: 18px}`, `.text-primary {color:blue}`
   ]
 })
 export class HomeComponent implements OnInit {
@@ -35,36 +35,30 @@ export class HomeComponent implements OnInit {
   languageTopiocList: LanguageTopic[] = [];
   showPlayer: boolean = false;
   stateName$: Observable<string> = of('Default text');
-  searchText: string ='';
+  searchText: string = '';
 
   questionSearch: FormControl = new FormControl('');
 
-  constructor(private sanitizer: DomSanitizer) { 
-
+  constructor(private sanitizer: DomSanitizer) {
     this.questionSearch.valueChanges.pipe(
       debounceTime(300),
       distinctUntilChanged(),
-      switchMap((query: string)=> this.service.getQuestionBysearchquery(query)) 
-    ).subscribe((result: APIResponsModel) =>{
-      this.questionList = result.data.sort((a:Question,b:Question) => a.orderNo - b.orderNo);
+      switchMap((query: string) => this.service.getQuestionBysearchquery(query))
+    ).subscribe((result: APIResponsModel) => {
+      this.questionList = result.data.sort((a: Question, b: Question) => a.orderNo - b.orderNo);
     })
+
   }
   ngOnInit(): void {
     this.loadLanguages();
-    this.getCount(); 
+    this.getCount();
+    this.getQuestionOnLangeChange();
   }
   isSticky: boolean = false;
 
-  @HostListener('window:scroll', ['$event'])
-  checkScroll() {
-    this.isSticky = window.pageYOffset >= 50;
-  }
-  @HostListener('contextmenu', ['$event'])
-  onRightClick(event: any) {
-    event.preventDefault();
-  }
 
-  onQuestionClicked(data:any) {
+
+  onQuestionClicked(data: any) {
 
   }
   loadLanguages() {
@@ -74,7 +68,7 @@ export class HomeComponent implements OnInit {
   }
   onSearch(search: string) {
     this.service.getQuestionBysearchquery(search).subscribe((res: APIResponsModel) => {
-      this.questionList = res.data.sort((a:Question,b:Question) => a.orderNo - b.orderNo);
+      this.questionList = res.data.sort((a: Question, b: Question) => a.orderNo - b.orderNo);
     })
   }
 
@@ -87,6 +81,48 @@ export class HomeComponent implements OnInit {
       })
 
     })
+  }
+
+  getQuestionOnLangeChange() {
+    this.service.selectedLanguage$.subscribe((languageId: number) => {
+      debugger;
+      this.questionList = [];
+      this.getyoutubeUrl();
+      this.getQuesByLang(languageId)
+      this.topicList$ = this.service.getTopicsBYLangId(languageId).pipe(
+        map((item: APIResponsModel) => {
+          return item.data;
+        }),
+        tap((data: any) => {
+          this.languageTopiocList = data.sort((a: LanguageTopic, b: LanguageTopic) => a.orderNo - b.orderNo);
+        })
+      )
+    })
+  }
+
+  onLanguageChange() { 
+    this.service.setSelectedLanguage(this.selectedLanguage); 
+  }
+
+  onTopicChange() {
+    this.getyoutubeUrl();
+    this.service.getQuestionBtTopicId(this.selectedTopic).subscribe((res: APIResponsModel) => {
+      this.questionList = res.data.sort((a: Question, b: Question) => a.orderNo - b.orderNo);;
+    })
+  }
+  getQuesByLang(id: number) {
+    this.service.getQuestionBtLangId(id).subscribe((res: APIResponsModel) => {
+      this.questionList = res.data;
+    })
+  }
+
+  @HostListener('window:scroll', ['$event'])
+  checkScroll() {
+    this.isSticky = window.pageYOffset >= 50;
+  }
+  @HostListener('contextmenu', ['$event'])
+  onRightClick(event: any) {
+    //event.preventDefault();
   }
   getyoutubeUrl() {
     debugger;
@@ -101,38 +137,11 @@ export class HomeComponent implements OnInit {
     if (this.selectedLanguage != 0 && this.selectedTopic === 0) {
       const getTopciUrl = this.languageList.find(m => m.languageId == Number(this.selectedLanguage));
       if (getTopciUrl && getTopciUrl?.youtubePlayListUrl !== '' && getTopciUrl?.youtubePlayListUrl !== null)
-        url = "https://www.youtube.com/embed/"+getTopciUrl?.youtubePlayListUrl;
+        url = "https://www.youtube.com/embed/" + getTopciUrl?.youtubePlayListUrl;
       this.youtubeUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
     }
     setTimeout(() => {
       this.showPlayer = true;
     }, 2000);
-  }
-
-  onLanguageChange() {
-    debugger;
-    this.questionList = [];
-    this.getyoutubeUrl();
-    this.getQuesByLang(this.selectedLanguage)
-    this.topicList$ = this.service.getTopicsBYLangId(this.selectedLanguage).pipe(
-      map((item: APIResponsModel) => {
-        return item.data;
-      }),
-      tap((data: any) => {
-        this.languageTopiocList =data.sort((a:LanguageTopic,b:LanguageTopic) => a.orderNo - b.orderNo);
-      })
-    )
-  }
-
-  onTopicChange() {
-    this.getyoutubeUrl();
-    this.service.getQuestionBtTopicId(this.selectedTopic).subscribe((res: APIResponsModel) => {
-      this.questionList = res.data.sort((a:Question,b:Question) => a.orderNo - b.orderNo);;
-    })
-  }
-  getQuesByLang(id: number) {
-    this.service.getQuestionBtLangId(id).subscribe((res: APIResponsModel) => {
-      this.questionList = res.data;
-    })
   }
 }

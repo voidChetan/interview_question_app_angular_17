@@ -1,11 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
-body { 
-	background-color:  #f3f3f3;
-	background-size: 100vw;
-	 
+:root {
+    --background-color: white;
+    --text-color: black;
+}
+
+[data-theme="dark"] {
+    --background-color: black;
+    --text-color: white;
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+	background-size: 100vw; 
 	margin: 0px;
 	padding: none; 
 }
+
+ 
 pre{
 	display: block;
     font-size: 87.5%;

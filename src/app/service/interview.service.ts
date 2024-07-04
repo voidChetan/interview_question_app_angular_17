@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { APIResponsModel } from '../model/language.model';
 
 @Injectable({
@@ -8,12 +8,25 @@ import { APIResponsModel } from '../model/language.model';
 })
 export class InterviewService {
 
-  apiEndPoint: string = "https://freeapi.gerasim.in/api/Interview/";
-  apiEndPoint2: string = "https://freeapi.gerasim.in/api/miniproject/";
+  apiEndPoint: string = "https://localhost:44355/api/Interview/";
+  apiEndPoint2: string = "https://localhost:44355/api/miniproject/";
+
+  selectedLanguage$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
   
 
 
   constructor(private http: HttpClient) { }
+
+  setSelectedLanguage(languageId: number) {
+    debugger;
+    this.selectedLanguage$.next(languageId);
+  }
+
+  readSelectedLanguage() {
+    return this.selectedLanguage$;
+  }
+
+
 
   getAllLanguage(): Observable<APIResponsModel> {
     return this.http.get<APIResponsModel>(this.apiEndPoint +"GetAllLanguage");
