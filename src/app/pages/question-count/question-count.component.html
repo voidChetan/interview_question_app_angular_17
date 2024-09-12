@@ -1,9 +1,11 @@
 <div class="widget widget_stats">
     <h3 class="widget_title">Question Count</h3>
     <div class="ul_list ul_list-icon-ok">
-        <ul>
-            <li (click)="onLanguageSelect(item.languageId)" [ngClass]="loader?'skeleton':''" *ngFor="let item of languageCountList"> <ng-container
-                    *ngIf="!loader">{{item.language}} ( <span>{{item.questionCount}} </span> )</ng-container> </li> 
+        <ul class="quesionLi">
+            <li (click)="onLanguageSelect(item?.languageId)" [ngClass]="loader?'skeleton':''" *ngFor="let item of languageCountList"> <ng-container
+                    *ngIf="!loader">{{item?.language}} ( <span>{{item.questionCount}} </span> )</ng-container> </li> 
         </ul>
     </div>
 </div>
+
+{{student?.address?.contant?.mobileNo1}}

@@ -45,6 +45,7 @@ export class HomeComponent implements OnInit {
       distinctUntilChanged(),
       switchMap((query: string) => this.service.getQuestionBysearchquery(query))
     ).subscribe((result: APIResponsModel) => {
+      debugger;
       this.questionList = result.data.sort((a: Question, b: Question) => a.orderNo - b.orderNo);
     })
 
@@ -68,6 +69,7 @@ export class HomeComponent implements OnInit {
   }
   onSearch(search: string) {
     this.service.getQuestionBysearchquery(search).subscribe((res: APIResponsModel) => {
+      debugger;
       this.questionList = res.data.sort((a: Question, b: Question) => a.orderNo - b.orderNo);
     })
   }
@@ -107,11 +109,13 @@ export class HomeComponent implements OnInit {
   onTopicChange() {
     this.getyoutubeUrl();
     this.service.getQuestionBtTopicId(this.selectedTopic).subscribe((res: APIResponsModel) => {
+      debugger;
       this.questionList = res.data.sort((a: Question, b: Question) => a.orderNo - b.orderNo);;
     })
   }
   getQuesByLang(id: number) {
     this.service.getQuestionBtLangId(id).subscribe((res: APIResponsModel) => {
+      debugger;
       this.questionList = res.data;
     })
   }

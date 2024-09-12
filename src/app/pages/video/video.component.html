@@ -1,0 +1,104 @@
+<div class="container-fluid mt-1">
+    <h2 class="text-center">Video Details CRUD</h2>
+    <div class="row">
+        <div class="col-8">
+            <div class="card mb-3">
+                <div class="card-header">
+                     <div class="row">
+                        <div class="col-4">
+                            <input type="text" [(ngModel)]="title" class="form-control" placeholder="search by Title">
+                        </div>
+                        <div class="col-4">
+                            <input type="text"  [(ngModel)]="videoTye" class="form-control" placeholder="search by Video Type">
+                        </div>
+                        <div class="col-4">
+                            <input type="button" value="Search"  (click)="getSearch()" class="btn btn-success">
+                            <input type="button" value="Reset"  (click)="loadVideoDetails()" class="btn btn-success">
+                        </div>
+                     </div>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th>Title</th>
+                                <th>Video Type</th>
+                                <th>Duration</th>
+                                <th>Description</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let video of videoDetailsList">
+                                <td>{{ video.title }}</td>
+                                <td>{{ video.videoType }}</td>
+                                <td>{{ video.duration }}</td>
+                                <td>{{ video.description }}</td>
+                                <td>
+                                    <button class="btn btn-primary btn-sm"
+                                        (click)="selectVideoDetail(video)">Edit</button>
+                                    <button class="btn btn-danger btn-sm"
+                                        (click)="deleteVideoDetail(video.id)">Delete</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <h5>{{ isEditMode ? 'Edit Video Detail' : 'Add New Video Detail' }}</h5>
+                </div>
+                <div class="card-body">
+                    <form (ngSubmit)="saveVideoDetail()">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="title">Title</label>
+                                    <input type="text" class="form-control" [(ngModel)]="selectedVideoDetail.title"
+                                        name="title" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="url">URL</label>
+                                    <input type="text" class="form-control" [(ngModel)]="selectedVideoDetail.url"
+                                        name="url" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="liveVersion">Live Version</label>
+                                    <input type="text" class="form-control"
+                                        [(ngModel)]="selectedVideoDetail.liveVersion" name="liveVersion" required />
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="videoType">Video Type</label>
+                                    <input type="text" class="form-control" [(ngModel)]="selectedVideoDetail.videoType"
+                                        name="videoType" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="duration">Duration</label>
+                                    <input type="text" class="form-control" [(ngModel)]="selectedVideoDetail.duration"
+                                        name="duration" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="description">Description</label>
+                                    <textarea class="form-control" [(ngModel)]="selectedVideoDetail.description"
+                                        name="description" required></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-success mt-3">{{ isEditMode ? 'Update' : 'Add' }}</button>
+                        <button type="button" class="btn btn-secondary mt-3" (click)="clearForm()">Clear</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Form for Create/Update -->
+
+
+    <!-- List of Video Details -->
+
+</div>
