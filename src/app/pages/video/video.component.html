@@ -1,5 +1,4 @@
-<div class="container-fluid mt-1">
-    <h2 class="text-center">Video Details CRUD</h2>
+<div class="container-fluid mt-1"> 
     <div class="row">
         <div class="col-8">
             <div class="card mb-3">
@@ -23,8 +22,7 @@
                             <tr>
                                 <th>Title</th>
                                 <th>Video Type</th>
-                                <th>Duration</th>
-                                <th>Description</th>
+                                <th>Duration</th> 
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -33,7 +31,6 @@
                                 <td>{{ video.title }}</td>
                                 <td>{{ video.videoType }}</td>
                                 <td>{{ video.duration }}</td>
-                                <td>{{ video.description }}</td>
                                 <td>
                                     <button class="btn btn-primary btn-sm"
                                         (click)="selectVideoDetail(video)">Edit</button>
@@ -53,41 +50,51 @@
                 </div>
                 <div class="card-body">
                     <form (ngSubmit)="saveVideoDetail()">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="title">Title</label>
-                                    <input type="text" class="form-control" [(ngModel)]="selectedVideoDetail.title"
-                                        name="title" required />
+                        <div class="form-group">
+                            <label for="title">Title</label>
+                            <input type="text" placeholder="Copy Title From youtube Video" class="form-control" [(ngModel)]="selectedVideoDetail.title"
+                                name="title" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="liveVersion">Live Version</label>
+                            <input type="text" placeholder="Check Video Description if live Version Provided" class="form-control"
+                                [(ngModel)]="selectedVideoDetail.liveVersion" name="liveVersion" required />
+                        </div>
+                        <div class="form-group">
+                            <label for="videoType">Video Type</label>
+                            <div class="row">
+                                <div class="col-6" *ngFor="let type of availableVideoTypes">
+                                    <input
+                                    type="checkbox"
+                                    [value]="type"
+                                    (change)="onCheckboxChange($event)"
+                                    [checked]="selectedVideoTypes.includes(type)"
+                                  />
+                                  {{ type }}
                                 </div>
+                            </div>
+                            
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6"> 
                                 <div class="form-group">
                                     <label for="url">URL</label>
-                                    <input type="text" class="form-control" [(ngModel)]="selectedVideoDetail.url"
+                                    <input type="text" placeholder="check video and get last code only" class="form-control" [(ngModel)]="selectedVideoDetail.url"
                                         name="url" required />
-                                </div>
-                                <div class="form-group">
-                                    <label for="liveVersion">Live Version</label>
-                                    <input type="text" class="form-control"
-                                        [(ngModel)]="selectedVideoDetail.liveVersion" name="liveVersion" required />
-                                </div>
+                                </div> 
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="videoType">Video Type</label>
-                                    <input type="text" class="form-control" [(ngModel)]="selectedVideoDetail.videoType"
-                                        name="videoType" required />
-                                </div>
+                            <div class="col-md-6"> 
                                 <div class="form-group">
                                     <label for="duration">Duration</label>
-                                    <input type="text" class="form-control" [(ngModel)]="selectedVideoDetail.duration"
+                                    <input type="text" class="form-control" placeholder="Enter 30 Min if Less that 1 hr or 1 hr or 2hr" [(ngModel)]="selectedVideoDetail.duration"
                                         name="duration" required />
-                                </div>
-                                <div class="form-group">
-                                    <label for="description">Description</label>
-                                    <textarea class="form-control" [(ngModel)]="selectedVideoDetail.description"
-                                        name="description" required></textarea>
-                                </div>
+                                </div> 
                             </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <textarea class="form-control" rows="3"  placeholder="Copy Starting description from video" [(ngModel)]="selectedVideoDetail.description"
+                                name="description" required></textarea>
                         </div>
                         <button type="submit" class="btn btn-success mt-3">{{ isEditMode ? 'Update' : 'Add' }}</button>
                         <button type="button" class="btn btn-secondary mt-3" (click)="clearForm()">Clear</button>

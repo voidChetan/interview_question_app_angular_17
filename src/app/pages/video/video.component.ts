@@ -25,10 +25,31 @@ export class VideoComponent implements OnInit {
   isEditMode = false;
   title: string ='';
   videoTye: string = '';
+  availableVideoTypes = ['Logic Development', 'Angular', 'CRUD','Interview','Live Session','Project Video', 'ReactJs', 'Tutorial', 'Dot Net Api','Full Course','JavaScript', 'jQuery'];
+  
+  // Store the selected video types (checkboxes)
+  selectedVideoTypes: string[] = [];
+
   constructor(private videoDetailsService: InterviewService) {}
 
   ngOnInit(): void {
     this.loadVideoDetails();
+  }
+  onCheckboxChange(event: any) {
+    const value = event.target.value;
+    const isChecked = event.target.checked;
+
+    if (isChecked) {
+      this.selectedVideoTypes.push(value);
+    } else {
+      const index = this.selectedVideoTypes.indexOf(value);
+      if (index > -1) {
+        this.selectedVideoTypes.splice(index, 1);
+      }
+    }
+
+    // Update the selectedVideoDetail.videoType as a comma-separated string
+    this.selectedVideoDetail.videoType = this.selectedVideoTypes.join(', ');
   }
   getSearch() {
     if(this.title !='') {
@@ -56,6 +77,7 @@ export class VideoComponent implements OnInit {
   selectVideoDetail(videoDetail: VideoDetails) {
     this.selectedVideoDetail = { ...videoDetail };
     this.isEditMode = true;
+    this.selectedVideoTypes = videoDetail.videoType.split(', ').map(type => type.trim());
   }
 
   // Clear form
@@ -71,15 +93,23 @@ export class VideoComponent implements OnInit {
       description: ''
     };
     this.isEditMode = false;
+    this.selectedVideoTypes = [];
   }
 
   // Add or update video detail
   saveVideoDetail() {
+    this.selectedVideoDetail.videoType = this.selectedVideoTypes.join(', ');
+    
     if (this.isEditMode) {
       // Update existing video detail
-      this.videoDetailsService.updateVideoDetail(this.selectedVideoDetail.id, this.selectedVideoDetail).subscribe(() => {
-        this.loadVideoDetails();
-        this.clearForm();
+      this.videoDetailsService.updateVideoDetail(this.selectedVideoDetail.id, this.selectedVideoDetail).subscribe((res:any) => {
+        if(res.result) {
+          this.loadVideoDetails();
+          this.clearForm();
+        } else {
+          alert(res.message)
+        }
+    
       });
     } else {
       // Create new video detail
